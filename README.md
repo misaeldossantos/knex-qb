@@ -1,3 +1,41 @@
+# Knex-qb
+Knex fork. Only query builder (query execution are removed), to use with react-native (expo support). Sqlite3 only)
+
+It is necessary to install node-libs-expo: https://github.com/annie-elequin/node-libs-expo
+
+Usage example:
+
+```js
+import knex as _knex from 'knex-qb'
+
+const knex = _knex({
+    client: 'sqlite3',
+    useNullAsDefault: true,
+    dialect: require('knex-qt/lib/dialects/sqlite3/index.js')
+})
+
+const sql = knex.schema.createTable('users', tb => {
+  tb.increments('id')
+  tb.string('name')
+}).toSQL()
+
+// runs sql:
+import * as SQLite from 'expo-sqlite'
+export const db = SQLite.openDatabase('application')
+
+db.transaction((tx) => {
+  tx.executeSql(sql, [])
+)
+
+```
+
+Install with:
+
+```
+npm install https://github.com/misaeldossantos/knex-qb
+```
+
+
 # [knex.js](http://knexjs.org)
 
 [![npm version](http://img.shields.io/npm/v/knex.svg)](https://npmjs.org/package/knex)
